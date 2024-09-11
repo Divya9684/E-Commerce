@@ -29,7 +29,6 @@ import { useNavigate } from "react-router-dom";
 import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
 import { useToast } from "@/components/ui/use-toast";
 import ProductDetailsDialog from "@/components/shopping-view/product-details";
-import { getFeatureImages } from "@/store/common-slice";
 
 const categoriesWithIcon = [
   { id: "men", label: "Men", icon: ShirtIcon },
@@ -47,12 +46,18 @@ const brandsWithIcon = [
   { id: "zara", label: "Zara", icon: Images },
   { id: "h&m", label: "H&M", icon: Heater },
 ];
+
 function ShoppingHome() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [featureImageList, setFeatureImageList] = useState([
+    { image: bannerOne },
+    { image: bannerTwo },
+    { image: bannerThree }
+  ]);
+
   const { productList, productDetails } = useSelector(
     (state) => state.shopProducts
   );
-  const { featureImageList } = useSelector((state) => state.commonFeature);
 
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
 
@@ -112,12 +117,6 @@ function ShoppingHome() {
         sortParams: "price-lowtohigh",
       })
     );
-  }, [dispatch]);
-
-  console.log(productList, "productList");
-
-  useEffect(() => {
-    dispatch(getFeatureImages());
   }, [dispatch]);
 
   return (
